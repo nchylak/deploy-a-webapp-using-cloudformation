@@ -1,0 +1,26 @@
+[
+    {
+        "ParameterKey": "ServiceName",
+        "ParameterValue": "udagram"
+    },
+    {
+        "ParameterKey": "VpcIpRange",
+        "ParameterValue": "10.0.0.0/16"
+    },
+    {
+        "ParameterKey": "PublicSubnet1IpRange",
+        "ParameterValue": "10.0.0.0/24"
+    },
+    {
+        "ParameterKey": "PublicSubnet2IpRange",
+        "ParameterValue": "10.0.1.0/24"
+    },
+    {
+        "ParameterKey": "PrivateSubnet1IpRange",
+        "ParameterValue": "10.0.2.0/24"
+    },
+    {
+        "ParameterKey": "PrivateSubnet2IpRange",
+        "ParameterValue": "10.0.3.0/24"
+    }
+]

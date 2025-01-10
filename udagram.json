@@ -2,5 +2,9 @@
 	{
         "ParameterKey": "ServiceName",
         "ParameterValue": "udagram"
-	}
+	},
+	{
+        "ParameterKey": "BucketName",
+        "ParameterValue": "udagram-web-app-bucket-297852797405310"
+        }
 ]

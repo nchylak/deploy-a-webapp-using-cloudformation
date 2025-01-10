@@ -5,6 +5,10 @@ Parameters:
     Description: The service name - is prefixed to Outputs
     Type: String
 
+  BucketName:
+    Description: The bucket name
+    Type: String
+
 Resources:
   WebServersSecurityGroup:
     Type: AWS::EC2::SecurityGroup
@@ -24,23 +28,12 @@ Resources:
       LaunchTemplateName: !Sub "${ServiceName}-web-servers-launch-template"
       LaunchTemplateData:
         UserData:
-          Fn::Base64: |
+          Fn::Base64: !Sub |
             #!/bin/bash
             apt-get update -y
-            sudo apt-get install nginx -y
+            sudo apt-get install -y nginx awscli
             service nginx start
-            cat <<EOF > index.html
-            <!DOCTYPE html>
-            <html>
-            <head>
-                <title>It works! Udagram, Udacity</title>
-            </head>
-            <body>
-                It works! Udagram, Udacity
-            </body>
-            </html>
-            EOF
-            sudo cp index.html /var/www/html/index.html
+            aws s3 cp s3://${BucketName}/index.html /var/www/html/index.html
             sudo systemctl reload nginx
         ImageId: ami-005fc0f236362e99f
         SecurityGroupIds:
@@ -56,7 +49,7 @@ Resources:
   WebAppBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Sub "${ServiceName}-web-app-bucket-297852797405310"
+      BucketName: !Sub "${BucketName}"
 
   WebAppInstanceRole:
     Type: AWS::IAM::Role
@@ -81,7 +74,7 @@ Resources:
                   - "s3:PutObject"
                   - "s3:GetObject"
                 Resource:
-                  - !GetAtt WebAppBucket.Arn
+                  - !Sub "arn:aws:s3:::${BucketName}/*"
 
   WebAppInstanceProfile:
     Type: AWS::IAM::InstanceProfile
